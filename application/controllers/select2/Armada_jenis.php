@@ -14,7 +14,7 @@ class Armada_jenis extends CI_Controller
   public function index()
   {
     $search = $this->input->get('search');
-    $get = $this->db->like('nmjenis_armada', $search)->get('tbl_armada_jenis')->result();
+    $get = $this->db->where('publish = "T"')->like('nmjenis_armada', $search)->get('tbl_armada_jenis')->result();
     $data = [];
     foreach ($get as $g) {
       $row = [];

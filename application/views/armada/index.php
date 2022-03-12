@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-body">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="card-title text-center">Contact</h4>
+        <h4 class="card-title text-center">Armada</h4>
         <div class="d-flex align-items-center">
           <button class="btn btn-sm btn-outline-warning" onclick="addData()"><i class="fa fa-plus"></i> Tambah</button>
         </div>
@@ -34,7 +34,7 @@
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modal_title">Contact</h5>
+        <h5 class="modal-title" id="modal_title">Armada</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -211,7 +211,7 @@
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
-    $('.modal-title').text('Tambah Contact'); // Set Title to Bootstrap modal title
+    $('.modal-title').text('Tambah Armada'); // Set Title to Bootstrap modal title
   }
 
   function edit_data(id) {
@@ -238,7 +238,7 @@
         $('[name="idstaf"]').append(idstaf).trigger('change');
         $('[name="kondisi_armada"]').val(data.kondisi_armada);
         $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-        $('.modal-title').text('Edit Contact'); // Set title to Bootstrap modal title
+        $('.modal-title').text('Edit Armada'); // Set title to Bootstrap modal title
       },
       error: function(jqXHR, textStatus, errorThrown) {
         alert('Error get data from ajax');

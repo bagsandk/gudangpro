@@ -14,7 +14,7 @@ class Staf extends CI_Controller
   public function index()
   {
     $search = $this->input->get('search');
-    $get = $this->db->like('nmstaf', $search)->get('tbl_staf')->result();
+    $get = $this->db->where('publish = "T"')->like('nmstaf', $search)->get('tbl_staf')->result();
     $data = [];
     foreach ($get as $g) {
       $row = [];

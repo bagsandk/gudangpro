@@ -1,6 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
+function menuActive($menu, $type = 'menu')
+{
+  $ci = &get_instance();
+  $uri = $ci->uri->segment(1);
+  switch ($type) {
+    case 'menu':
+      return $uri == str_replace('/', '', $menu) ? 'active' : '';
+      break;
+    case 'submenu':
+      return $uri == str_replace('/', '', $menu) ? 'active' : '';
+      break;
+    case 'collapse':
+      $mc = [];
+      foreach ($menu as $m) {
+        $mc[] = str_replace('/', '', $m['url']);
+      }
+      return in_array($uri, $mc) ? 'active pcoded-trigger' : '';
+      break;
+    default:
+      return '';
+  }
+}
 $items = [
   [
     "id" => "dahsboard",
@@ -73,13 +95,13 @@ $items = [
             "id" => "armada-i",
             "title" => "Armada",
             "type" => "item",
-            "url" => "/armada/",
+            "url" => "/armada",
           ],
           [
             "id" => "armada-jenis",
             "title" => "Jenis",
             "type" => "item",
-            "url" => "/armada/jenis",
+            "url" => "/armada_jenis",
           ],
         ],
       ],
@@ -195,7 +217,7 @@ $items = [
 ?>
 
 <head>
-  <title>Gudang Pro</title>
+  <title>Gudang Pro </title>
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
@@ -247,16 +269,16 @@ $items = [
             </li>
             <?php foreach ($menus['children'] as $menu) { ?>
               <?php if (isset($menu['children'])) { ?>
-                <li class="nav-item pcoded-hasmenu">
+                <li class="nav-item pcoded-hasmenu <?= menuActive($menu['children'], 'collapse') ?>">
                   <a href="javascript:" class="nav-link"><span class="pcoded-micon"><i class="<?= $menu['icon'] ?>"></i></span><span class="pcoded-mtext"><?= $menu['title'] ?></span></a>
                   <ul class="pcoded-submenu">
                     <?php foreach ($menu['children'] as $submemu) { ?>
-                      <li class=""><a href="<?= base_url($submemu['url']) ?>" class=""><?= $submemu['title'] ?></a></li>
+                      <li class="<?= menuActive($submemu['url'], 'submenu') ?>"><a href="<?= base_url($submemu['url']) ?>" class=""><?= $submemu['title'] ?></a></li>
                     <?php } ?>
                   </ul>
                 </li>
               <?php } else { ?>
-                <li class="nav-item">
+                <li class="nav-item <?= menuActive($menu['url'], 'menu') ?>">
                   <a href="<?= base_url($menu['url']) ?>" class="nav-link "><span class="pcoded-micon"><i class="<?= $menu['icon'] ?>"></i></span><span class="pcoded-mtext"><?= $menu['title'] ?></span></a>
                 </li>
             <?php }
@@ -276,7 +298,7 @@ $items = [
         <div class="b-bg">
           <i class="feather icon-trending-up"></i>
         </div>
-        <span class="b-title">Datta Able</span>
+        <span class="b-title"></span>
       </a>
     </div>
     <a class="mobile-menu" id="mobile-header" href="javascript:">
@@ -354,6 +376,7 @@ $items = [
             <div class="page-wrapper">
               <!-- [ Main Content ] start -->
               <div class="row">
+                <?php var_dump(menuActive('/home', 'menu')) ?>
                 <?php if ($content) $this->load->view($content); ?>
               </div>
               <!-- [ Main Content ] end -->
