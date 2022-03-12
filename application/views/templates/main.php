@@ -251,13 +251,13 @@ $items = [
                   <a href="javascript:" class="nav-link"><span class="pcoded-micon"><i class="<?= $menu['icon'] ?>"></i></span><span class="pcoded-mtext"><?= $menu['title'] ?></span></a>
                   <ul class="pcoded-submenu">
                     <?php foreach ($menu['children'] as $submemu) { ?>
-                      <li class=""><a href="<?= $submemu['url'] ?>" class=""><?= $submemu['title'] ?></a></li>
+                      <li class=""><a href="<?= base_url($submemu['url']) ?>" class=""><?= $submemu['title'] ?></a></li>
                     <?php } ?>
                   </ul>
                 </li>
               <?php } else { ?>
                 <li class="nav-item">
-                  <a href="<?= $menu['url'] ?>" class="nav-link "><span class="pcoded-micon"><i class="<?= $menu['icon'] ?>"></i></span><span class="pcoded-mtext"><?= $menu['title'] ?></span></a>
+                  <a href="<?= base_url($menu['url']) ?>" class="nav-link "><span class="pcoded-micon"><i class="<?= $menu['icon'] ?>"></i></span><span class="pcoded-mtext"><?= $menu['title'] ?></span></a>
                 </li>
             <?php }
             } ?>
