@@ -141,7 +141,7 @@ $items = [
             "id" => "metode-bayar",
             "title" => "Metode Pembayaran",
             "type" => "item",
-            "url" => "/pembayaran-master/metode-bayar",
+            "url" => "/metode_bayar",
           ],
           [
             "id" => "status-bayar",
@@ -167,7 +167,7 @@ $items = [
             "id" => "user",
             "title" => "User",
             "type" => "item",
-            "url" => "/user/",
+            "url" => "/user",
           ],
           [
             "id" => "staf",
@@ -179,7 +179,7 @@ $items = [
             "id" => "pelanggan",
             "title" => "Pelanggan",
             "type" => "item",
-            "url" => "/user/pelanggan",
+            "url" => "/pelanggan",
           ],
           [
             "id" => "supplier",
