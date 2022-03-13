@@ -7,7 +7,7 @@ class User_model extends CI_Model
 	var $table = 'tbl_user';
 	var $column_order = array('name', 'photo', 'email', 'level'); //set column field database for datatable orderable
 	var $column_search = array('name', 'photo', 'email', 'level'); //set column field database for datatable searchable just firstname , lastname , address are searchable
-	var $order = array('idunit' => 'desc'); // default order 
+	var $order = array('iduser' => 'desc'); // default order 
 
 	public function __construct()
 	{
@@ -76,7 +76,7 @@ class User_model extends CI_Model
 	public function get_by_id($id)
 	{
 		$this->db->from($this->table);
-		$this->db->where('idunit', $id);
+		$this->db->where('iduser', $id);
 		$query = $this->db->get();
 
 		return $query->row();
@@ -96,7 +96,7 @@ class User_model extends CI_Model
 
 	public function delete_by_id($id)
 	{
-		$this->db->where('idunit', $id);
+		$this->db->where('iduser', $id);
 		$this->db->delete($this->table);
 	}
 }

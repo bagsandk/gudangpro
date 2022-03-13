@@ -5,8 +5,8 @@ class Pelanggan_model extends CI_Model
 {
 
 	var $table = 'tbl_pelanggan';
-	var $column_order = array('kdpelanggan', 'nmpelanggan', 'notelp', 'email', 'alamat_jalan', 'kabupaten', 'provinsi', 'negara', 'deposit', 'p_discount'); //set column field database for datatable orderable
-	var $column_search = array('kdpelanggan', 'nmpelanggan', 'notelp', 'email', 'alamat_jalan', 'kabupaten', 'provinsi', 'negara', 'deposit', 'p_discount'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+	var $column_order = array('kdpelanggan', 'nmpelanggan', 'notelp', 'tbl_pelanggan.email', 'alamat_jalan',  'deposit', 'p_discount'); //set column field database for datatable orderable
+	var $column_search = array('kdpelanggan', 'nmpelanggan', 'notelp', 'tbl_pelanggan.email', 'alamat_jalan',  'deposit', 'p_discount'); //set column field database for datatable searchable just firstname , lastname , address are searchable
 	var $order = array('idpelanggan' => 'desc'); // default order 
 
 
@@ -19,7 +19,7 @@ class Pelanggan_model extends CI_Model
 	private function _get_datatables_query()
 	{
 
-		$this->db->from($this->table)->join('tbl_user', 'tbl_user.iduser = tbl_pelanggan.iduser')->where('tbl_pelanggan.publish = "T"');
+		$this->db->select('tbl_pelanggan.*')->from($this->table)->join('tbl_user', 'tbl_user.iduser = tbl_pelanggan.iduser')->where('tbl_pelanggan.publish = "T"');
 
 		$i = 0;
 
