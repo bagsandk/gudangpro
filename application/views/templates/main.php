@@ -386,6 +386,7 @@ $items = [
   <script src="<?= base_url() ?>assets/js/vendor-all.min.js"></script>
   <script src="<?= base_url() ?>assets/plugins/bootstrap/js/bootstrap.min.js"></script>
   <script src="<?= base_url() ?>assets/js/pcoded.min.js"></script>
+  <script src="<?= base_url() ?>assets/jquery-mask/jquery.mask.min.js"></script>
 
   <script src="<?= base_url(); ?>assets/popper/popper.min.js"></script>
   <script src="<?= base_url(); ?>assets/DataTables-1.10.18/js/jquery.dataTables.min.js"></script>
