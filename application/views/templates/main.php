@@ -254,12 +254,10 @@ $items = [
     <div class="navbar-wrapper">
       <div class="navbar-brand header-logo">
         <a href="index.html" class="b-brand">
-          <div class="b-bg">
-            <i class="feather icon-trending-up"></i>
-          </div>
-          <span class="b-title">Datta Able</span>
+          <div class=""><img width="55" src="<?= base_url('assets/images/logo-1.png') ?>" class=""></div>
+          <span class="b-title">Gudang Pro</span>
         </a>
-        <a class="mobile-menu" id="mobile-collapse" href="javascript"><span></span></a>
+        <a class="mobile-menu" id="mobile-collapse" href="#"><span></span></a>
       </div>
       <div class="navbar-content scroll-div">
         <ul class="nav pcoded-inner-navbar">
@@ -376,7 +374,6 @@ $items = [
             <div class="page-wrapper">
               <!-- [ Main Content ] start -->
               <div class="row">
-                <?php var_dump(menuActive('/home', 'menu')) ?>
                 <?php if ($content) $this->load->view($content); ?>
               </div>
               <!-- [ Main Content ] end -->

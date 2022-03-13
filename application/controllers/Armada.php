@@ -35,8 +35,8 @@ class Armada extends CI_Controller
 			$row[] = $armada->kondisi_armada;
 
 			//add html for action
-			$row[] = "<a class='btn btn-sm btn-outline-primary' href='javascript:void(0)' title='Edit' onclick=\"edit_data('{$armada->idarmada}')\"><i class='fa fa-edit'></i>Edit</a>"
-				. " <a class='btn btn-sm btn-outline-danger' href='javascript:void(0)' title='Hapus' onclick=\"delete_data('{$armada->idarmada}')\"><i class='fa fa-trash'></i>Delete</a>";
+			$row[] = "<a class='btn btn-md btn-outline-primary' href='javascript:void(0)' title='Edit' onclick=\"edit_data('{$armada->idarmada}')\"><i class='fa fa-edit'></i>Edit</a>"
+				. " <a class='btn btn-md btn-outline-danger' href='javascript:void(0)' title='Hapus' onclick=\"delete_data('{$armada->idarmada}')\"><i class='fa fa-trash'></i>Delete</a>";
 
 			$data[] = $row;
 		}

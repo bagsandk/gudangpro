@@ -28,8 +28,8 @@ class Metode_bayar extends CI_Controller
 			$row[] = $metode_bayar->metode_bayar;
 
 			//add html for action
-			$row[] = "<a class='btn btn-sm btn-outline-primary' href='javascript:void(0)' title='Edit' onclick=\"edit_data('{$metode_bayar->idmetode_bayar}')\"><i class='fa fa-edit'></i>Edit</a>"
-				. " <a class='btn btn-sm btn-outline-danger' href='javascript:void(0)' title='Hapus' onclick=\"delete_data('{$metode_bayar->idmetode_bayar}')\"><i class='fa fa-trash'></i>Delete</a>";
+			$row[] = "<a class='btn btn-md btn-outline-primary' href='javascript:void(0)' title='Edit' onclick=\"edit_data('{$metode_bayar->idmetode_bayar}')\"><i class='fa fa-edit'></i>Edit</a>"
+				. " <a class='btn btn-md btn-outline-danger' href='javascript:void(0)' title='Hapus' onclick=\"delete_data('{$metode_bayar->idmetode_bayar}')\"><i class='fa fa-trash'></i>Delete</a>";
 
 			$data[] = $row;
 		}
