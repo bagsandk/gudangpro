@@ -25,10 +25,14 @@
   <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/animation/css/animate.min.css">
   <!-- vendor css -->
   <link rel="stylesheet" href="<?= base_url() ?>assets/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 </head>
 
 <body>
+  <?php if ($this->session->flashdata('message')) {
+    echo $this->session->flashdata('message');
+  } ?>
   <div class="auth-wrapper">
     <div class="auth-content">
       <div class="auth-bg">
@@ -43,21 +47,21 @@
             <i class="feather icon-unlock auth-icon"></i>
           </div>
           <h3 class="mb-4">Login</h3>
-          <div class="input-group mb-3">
-            <input type="email" class="form-control" placeholder="Email">
-          </div>
-          <div class="input-group mb-4">
-            <input type="password" class="form-control" placeholder="password">
-          </div>
-          <div class="form-group text-left">
-            <div class="checkbox checkbox-fill d-inline">
-              <input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="">
-              <label for="checkbox-fill-a1" class="cr"> Save Details</label>
+          <form action="<?php echo base_url('login/act_login') ?>" method="post">
+            <div class="input-group mb-3">
+              <input type="email" name="email" class="form-control" placeholder="Email">
             </div>
-          </div>
-          <button class="btn btn-primary shadow-2 mb-4">Login</button>
-          <p class="mb-2 text-muted">Forgot password? <a href="<?= base_url() ?>auth-reset-password.html">Reset</a></p>
-          <p class="mb-0 text-muted">Don’t have an account? <a href="<?= base_url() ?>auth-signup.html">Signup</a></p>
+            <div class="input-group mb-4">
+              <input type="password" name="password" class="form-control" placeholder="password">
+            </div>
+            <div class="form-group text-left">
+              <div class="checkbox checkbox-fill d-inline">
+                <input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="">
+                <label for="checkbox-fill-a1" class="cr"> Save Details</label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary shadow-2 mb-4">Login</button>
+          </form>
         </div>
       </div>
     </div>

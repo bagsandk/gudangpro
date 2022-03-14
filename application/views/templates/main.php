@@ -27,12 +27,14 @@ $items = [
   [
     "id" => "dahsboard",
     "title" => "Dahsboard",
+    "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
     "type" => "group",
     "icon" => "icon-navigation",
     "children" => [
       [
         "id" => "dashboard",
         "title" => "Dashboard",
+        "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
         "type" => "item",
         "url" => "/home",
         "icon" => "feather icon-home",
@@ -42,36 +44,43 @@ $items = [
   [
     "id" => "penjualan",
     "title" => "Main Menu",
+    "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
     "type" => "group",
+    "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
     "icon" => "icon-ui",
     "children" => [
       [
         "id" => "penjualan",
         "title" => "Penjualan",
+        "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
         "type" => "collapse",
         "icon" => "feather icon-box",
         "children" => [
           [
             "id" => "penjualan",
             "title" => "Penjualan",
+            "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
             "url" => "/penjualan/",
           ],
           [
             "id" => "penjualan-pembayaran",
             "title" => "Pembayaran",
+            "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
             "url" => "/penjualan/pembayaran",
           ],
           [
             "id" => "delivery-order",
             "title" => "Delivery Order",
+            "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
             "url" => "/penjualan/delivery-order",
           ],
           [
             "id" => "laporan",
             "title" => "Laporan",
+            "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
             "url" => "/basic/collapse",
           ],
@@ -82,24 +91,28 @@ $items = [
   [
     "id" => "ui-master",
     "title" => "Manajemen Data",
+    "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
     "type" => "group",
     "icon" => "icon-ui",
     "children" => [
       [
         "id" => "armada",
         "title" => "Armada",
+        "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
         "type" => "collapse",
         "icon" => "feather icon-box",
         "children" => [
           [
             "id" => "armada-i",
             "title" => "Armada",
+            "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
             "url" => "/armada",
           ],
           [
             "id" => "armada-jenis",
             "title" => "Jenis",
+            "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
             "url" => "/armada_jenis",
           ],
@@ -108,24 +121,28 @@ $items = [
       [
         "id" => "barang",
         "title" => "Barang",
+        "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
         "type" => "collapse",
         "icon" => "feather icon-box",
         "children" => [
           [
             "id" => "barang-i",
             "title" => "Barang",
+            "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
             "url" => "/barang",
           ],
           [
             "id" => "barang-kategori",
             "title" => "Kategori",
+            "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
             "url" => "/barang_kategori",
           ],
           [
             "id" => "barang-satuan",
             "title" => "Satuan",
+            "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
             "url" => "/barang_satuan",
           ],
@@ -134,24 +151,28 @@ $items = [
       [
         "id" => "pembayaran-master",
         "title" => "Pembayaran",
+        "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
         "type" => "collapse",
         "icon" => "feather icon-box",
         "children" => [
           [
             "id" => "metode-bayar",
             "title" => "Metode Pembayaran",
+            "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
             "url" => "/metode_bayar",
           ],
           [
             "id" => "status-bayar",
             "title" => "Status Bayar",
+            "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
             "url" => "/pembayaran-master/status-bayar",
           ],
           [
             "id" => "rekening-bank",
             "title" => "Rekening Bank",
+            "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
             "url" => "/pembayaran-master/rekening-bank",
           ],
@@ -160,30 +181,35 @@ $items = [
       [
         "id" => "user",
         "title" => "User",
+        "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
         "type" => "collapse",
         "icon" => "feather icon-box",
         "children" => [
           [
             "id" => "user",
             "title" => "User",
+            "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
             "url" => "/user",
           ],
           [
             "id" => "staf",
             "title" => "Staf",
+            "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
             "url" => "/user/staf",
           ],
           [
             "id" => "pelanggan",
             "title" => "Pelanggan",
+            "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
             "url" => "/pelanggan",
           ],
           [
             "id" => "supplier",
             "title" => "Supplier",
+            "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
             "url" => "/user/supplier",
           ],
@@ -192,6 +218,7 @@ $items = [
       [
         "id" => "jabatan",
         "title" => "Jabatan",
+        "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
         "type" => "item",
         "url" => "/jabatan",
         "icon" => "feather icon-box",
@@ -199,6 +226,7 @@ $items = [
       [
         "id" => "pendidikan",
         "title" => "Pendidikan",
+        "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
         "type" => "item",
         "url" => "/pendidikan",
         "icon" => "feather icon-box",
@@ -206,6 +234,7 @@ $items = [
       [
         "id" => "unit",
         "title" => "Unit",
+        "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
         "type" => "item",
         "url" => "/unit",
         "icon" => "feather icon-box",
@@ -261,27 +290,50 @@ $items = [
       </div>
       <div class="navbar-content scroll-div">
         <ul class="nav pcoded-inner-navbar">
-          <?php foreach ($items as $menus) { ?>
-            <li class="nav-item pcoded-menu-caption">
-              <label><?= $menus['title'] ?></label>
-            </li>
-            <?php foreach ($menus['children'] as $menu) { ?>
-              <?php if (isset($menu['children'])) { ?>
-                <li class="nav-item pcoded-hasmenu <?= menuActive($menu['children'], 'collapse') ?>">
-                  <a href="javascript:" class="nav-link"><span class="pcoded-micon"><i class="<?= $menu['icon'] ?>"></i></span><span class="pcoded-mtext"><?= $menu['title'] ?></span></a>
-                  <ul class="pcoded-submenu">
-                    <?php foreach ($menu['children'] as $submemu) { ?>
-                      <li class="<?= menuActive($submemu['url'], 'submenu') ?>"><a href="<?= base_url($submemu['url']) ?>" class=""><?= $submemu['title'] ?></a></li>
-                    <?php } ?>
-                  </ul>
-                </li>
-              <?php } else { ?>
-                <li class="nav-item <?= menuActive($menu['url'], 'menu') ?>">
-                  <a href="<?= base_url($menu['url']) ?>" class="nav-link "><span class="pcoded-micon"><i class="<?= $menu['icon'] ?>"></i></span><span class="pcoded-mtext"><?= $menu['title'] ?></span></a>
-                </li>
-            <?php }
-            } ?>
-          <?php } ?>
+          <?php foreach ($items as $menus) {
+            if (!in_array($this->session->userdata('level'), explode('|', $menus['level']))) {
+              continue;
+            } else {
+          ?>
+              <li class="nav-item pcoded-menu-caption">
+                <label><?= $menus['title'] ?></label>
+              </li>
+              <?php foreach ($menus['children'] as $menu) {
+                if (!in_array($this->session->userdata('level'), explode('|', $menu['level']))) {
+                  continue;
+                } else {
+              ?>
+                  <?php if (isset($menu['children'])) { ?>
+                    <li class="nav-item pcoded-hasmenu <?= menuActive($menu['children'], 'collapse') ?>">
+                      <a href="javascript:" class="nav-link"><span class="pcoded-micon"><i class="<?= $menu['icon'] ?>"></i></span><span class="pcoded-mtext"><?= $menu['title'] ?></span></a>
+                      <ul class="pcoded-submenu">
+                        <?php foreach ($menu['children'] as $submenu) {
+                          if (!in_array($this->session->userdata('level'), explode('|', $submenu['level']))) {
+                            continue;
+                          } else {
+                        ?>
+                            <li class="<?= menuActive($submenu['url'], 'submenu') ?>"><a href="<?= base_url($submenu['url']) ?>" class=""><?= $submenu['title'] ?></a></li>
+                        <?php
+                          }
+                        }
+                        ?>
+                      </ul>
+                    </li>
+                    <?php } else {
+                    if (!in_array($this->session->userdata('level'), explode('|', $menu['level']))) {
+                      continue;
+                    } else {
+                    ?>
+                      <li class="nav-item <?= menuActive($menu['url'], 'menu') ?>">
+                        <a href="<?= base_url($menu['url']) ?>" class="nav-link "><span class="pcoded-micon"><i class="<?= $menu['icon'] ?>"></i></span><span class="pcoded-mtext"><?= $menu['title'] ?></span></a>
+                      </li>
+          <?php     }
+                  }
+                }
+              }
+            }
+          }
+          ?>
         </ul>
       </div>
     </div>
@@ -347,7 +399,7 @@ $items = [
               <div class="pro-head">
                 <img src="<?= base_url() ?>assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image">
                 <span>John Doe</span>
-                <a href="auth-signin.html" class="dud-logout" title="Logout">
+                <a href="<?php echo base_url('login/logout') ?>" class="dud-logout" title="Logout">
                   <i class="feather icon-log-out"></i>
                 </a>
               </div>
