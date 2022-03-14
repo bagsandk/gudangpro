@@ -33,6 +33,7 @@ class Login extends CI_Controller
         redirect('login/index');
       }
       $data_session = array(
+        'iduser' => $check['iduser'],
         'email' => $email,
         'name' => $check['name'],
         'photo' => $check['photo'],
