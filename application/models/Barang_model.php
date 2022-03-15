@@ -98,6 +98,7 @@ class Barang_model extends CI_Model
 
 	public function update($where, $data)
 	{
+		$data['rec_update'] = date('Y-m-d H:i:s');
 		$this->db->update($this->table, $data, $where);
 		return $this->db->affected_rows();
 	}

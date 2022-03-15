@@ -1,13 +1,14 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Rekening_bank_model extends CI_Model
+class Staf_model extends CI_Model
 {
 
-	var $table = 'tbl_rekening_bank';
-	var $column_order = array('norekening', 'nmbank', 'cabang', 'nmnasabah'); //set column field database for datatable orderable
-	var $column_search = array('norekening', 'nmbank', 'cabang', 'nmnasabah'); //set column field database for datatable searchable just firstname , lastname , address are searchable
-	var $order = array('idrekeningbank' => 'desc'); // default order 
+	var $table = 'tbl_staf';
+	var $column_order = array('kdstaf', 'nmstaf', 'nik', 'tempat_lahir', 'tanggal_lahir', 'sex', 'notelp', 'email', 'alamat_jalan', 'kabupaten', 'provinsi', 'negara', 'tgl_masuk', 'tgl_berhenti', 'nmjabatan', 'nmunit', 'alias'); //set column field database for datatable orderable
+	var $column_search = array('kdstaf', 'nmstaf', 'nik', 'tempat_lahir', 'tanggal_lahir', 'sex', 'notelp', 'email', 'alamat_jalan', 'kabupaten', 'provinsi', 'negara', 'tgl_masuk', 'tgl_berhenti', 'nmjabatan', 'nmunit', 'alias'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+	var $order = array('idstaf' => 'desc'); // default order 
+
 
 	public function __construct()
 	{
@@ -18,7 +19,11 @@ class Rekening_bank_model extends CI_Model
 	private function _get_datatables_query()
 	{
 
-		$this->db->from($this->table)->where('publish = "T"');
+		$this->db->from($this->table)
+			->join('tbl_unit', 'tbl_unit.idunit = tbl_staf.idunit')
+			->join('tbl_pendidikan', 'tbl_pendidikan.idpendidikan = tbl_staf.idpendidikan')
+			->join('tbl_jabatan', 'tbl_jabatan.idjabatan = tbl_staf.idjabatan')
+			->where('tbl_staf.publish = "T"');
 
 		$i = 0;
 
@@ -75,8 +80,13 @@ class Rekening_bank_model extends CI_Model
 
 	public function get_by_id($id)
 	{
-		$this->db->from($this->table);
-		$this->db->where('idrekeningbank', $id);
+		$this->db->from($this->table)
+			->join('tbl_unit', 'tbl_unit.idunit = tbl_staf.idunit')
+			->join('tbl_pendidikan', 'tbl_pendidikan.idpendidikan = tbl_staf.idpendidikan')
+			->join('tbl_jabatan', 'tbl_jabatan.idjabatan = tbl_staf.idjabatan')
+			->where('tbl_staf.publish = "T"');
+
+		$this->db->where('tbl_staf.idstaf', $id);
 		$query = $this->db->get();
 
 		return $query->row();
@@ -97,7 +107,7 @@ class Rekening_bank_model extends CI_Model
 
 	public function delete_by_id($id)
 	{
-		$this->db->where('idrekeningbank', $id);
+		$this->db->where('idstaf', $id);
 		$this->db->delete($this->table);
 	}
 }

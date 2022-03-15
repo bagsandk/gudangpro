@@ -197,7 +197,7 @@ $items = [
             "title" => "Staf",
             "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
-            "url" => "/user/staf",
+            "url" => "/staf",
           ],
           [
             "id" => "pelanggan",
@@ -211,7 +211,7 @@ $items = [
             "title" => "Supplier",
             "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
-            "url" => "/user/supplier",
+            "url" => "/supplier",
           ],
         ],
       ],
