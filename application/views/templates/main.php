@@ -174,7 +174,7 @@ $items = [
             "title" => "Rekening Bank",
             "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
-            "url" => "/pembayaran-master/rekening-bank",
+            "url" => "/rekening_bank",
           ],
         ],
       ],
@@ -197,7 +197,7 @@ $items = [
             "title" => "Staf",
             "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
-            "url" => "/user/staf",
+            "url" => "/staf",
           ],
           [
             "id" => "pelanggan",
@@ -211,7 +211,7 @@ $items = [
             "title" => "Supplier",
             "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
-            "url" => "/user/supplier",
+            "url" => "/supplier",
           ],
         ],
       ],
@@ -398,7 +398,7 @@ $items = [
             <div class="dropdown-menu dropdown-menu-right profile-notification">
               <div class="pro-head">
                 <img src="<?= base_url() ?>assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image">
-                <span>John Doe</span>
+                <span><?php echo $this->session->userdata('name') ?></span>
                 <a href="<?php echo base_url('login/logout') ?>" class="dud-logout" title="Logout">
                   <i class="feather icon-log-out"></i>
                 </a>

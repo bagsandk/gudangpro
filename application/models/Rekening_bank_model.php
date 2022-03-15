@@ -1,14 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Barang_model extends CI_Model
+class Rekening_bank_model extends CI_Model
 {
 
-	var $table = 'tbl_barang';
-	var $column_order = array('kdbarang', 'nmbarang', 'merek', 'nmkategori', 'nmsatuan', 'nmsupplier', 'tonase', 'harga_net', 'harga_jual', 'stok'); //set column field database for datatable orderable
-	var $column_search = array('kdbarang', 'nmbarang', 'merek', 'nmkategori', 'nmsatuan', 'nmsupplier', 'tonase', 'harga_net', 'harga_jual', 'stok'); //set column field database for datatable searchable just firstname , lastname , address are searchable
-	var $order = array('idbarang' => 'desc'); // default order 
-
+	var $table = 'tbl_rekening_bank';
+	var $column_order = array('norekening', 'nmbank', 'cabang', 'nmnasabah'); //set column field database for datatable orderable
+	var $column_search = array('norekening', 'nmbank', 'cabang', 'nmnasabah'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+	var $order = array('idrekeningbank' => 'desc'); // default order 
 
 	public function __construct()
 	{
@@ -19,10 +18,7 @@ class Barang_model extends CI_Model
 	private function _get_datatables_query()
 	{
 
-		$this->db->from($this->table)
-			->join('tbl_barang_kategori', 'tbl_barang_kategori.idkategori = tbl_barang.idkategori')
-			->join('tbl_barang_satuan', 'tbl_barang_satuan.idsatuan = tbl_barang.idsatuan')
-			->join('tbl_supplier', 'tbl_supplier.idsupplier = tbl_barang.idsupplier')->where('tbl_barang.publish = "T"');
+		$this->db->from($this->table)->where('publish = "T"');
 
 		$i = 0;
 
@@ -79,12 +75,8 @@ class Barang_model extends CI_Model
 
 	public function get_by_id($id)
 	{
-		$this->db->from($this->table)
-			->join('tbl_barang_kategori', 'tbl_barang_kategori.idkategori = tbl_barang.idkategori')
-			->join('tbl_barang_satuan', 'tbl_barang_satuan.idsatuan = tbl_barang.idsatuan')
-			->join('tbl_supplier', 'tbl_supplier.idsupplier = tbl_barang.idsupplier')->where('tbl_barang.publish = "T"');
-
-		$this->db->where('tbl_barang.idbarang', $id);
+		$this->db->from($this->table);
+		$this->db->where('idrekeningbank', $id);
 		$query = $this->db->get();
 
 		return $query->row();
@@ -105,7 +97,7 @@ class Barang_model extends CI_Model
 
 	public function delete_by_id($id)
 	{
-		$this->db->where('idbarang', $id);
+		$this->db->where('idrekeningbank', $id);
 		$this->db->delete($this->table);
 	}
 }

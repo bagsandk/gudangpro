@@ -95,6 +95,7 @@ class Barang extends CI_Controller
 				'tonase' => $this->input->post('tonase'),
 				'harga_net' => $this->input->post('harga_net'),
 				'harga_jual' => $this->input->post('harga_jual'),
+				'iduser' => $this->session->userdata('iduser'),
 			);
 			$insert = $this->barang->save($insert);
 			$data['status'] = TRUE;
@@ -138,6 +139,7 @@ class Barang extends CI_Controller
 				'tonase' => $this->input->post('tonase'),
 				'harga_net' => $this->input->post('harga_net'),
 				'harga_jual' => $this->input->post('harga_jual'),
+				'iduser' => $this->session->userdata('iduser'),
 			);
 			$this->barang->update(array('idbarang' => $this->input->post('idbarang')), $update);
 			$data['status'] = TRUE;
