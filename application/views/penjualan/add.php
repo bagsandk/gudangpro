@@ -1,7 +1,7 @@
 <div class="col-md-12">
   <div class="card">
     <div class="card-body">
-      <form>
+      <form id="form">
         <div class="form-row">
           <div class="col-md-3">
             <div class="form-group">
@@ -21,7 +21,7 @@
             <div class="form-group">
               <label class="control-label">Jenis DO</label>
               <select name="jenis_do" class="form-control" type="text">
-                <option>Pilih</option>
+                <option value="">Pilih</option>
                 <option value="TAKEIT">TAKEIT</option>
                 <option value="DELIVERY">DELIVERY</option>
                 <option value="KURIR">KURIR</option>
@@ -33,7 +33,7 @@
             <div class="form-group">
               <label class="control-label">Pelanggan</label>
               <select id="idpelanggan" name="idpelanggan" class="form-control" type="text">
-                <option>Pilih</option>
+                <option value="">Pilih</option>
               </select>
               <span class="invalid-feedback"></span>
             </div>
@@ -45,8 +45,8 @@
               <tr>
                 <th>Barang</th>
                 <th>Harga</th>
-                <th style="width: 100px;">Qty</th>
-                <th style="width: 100px;">Diskon %</th>
+                <th style="width: 150px;">Qty</th>
+                <th style="width: 150px;">Diskon %</th>
                 <th style="width: 200px;">Total</th>
                 <th class="text-right">
                   <button onclick="pilihBarang()" type="button" class="btn btn-info btn-sm">
@@ -69,7 +69,7 @@
           </table>
         </div>
         <textarea class="form-control" placeholder="Keterangan" name="keterangan"></textarea>
-        <button type="button" class="btn btn-success mt-3 float-right">Simpan</button>
+        <button disabled="true" id="btnTambah" onclick="simpan()" type="button" class="btn btn-success mt-3 float-right">Simpan</button>
       </form>
     </div>
   </div>
@@ -170,7 +170,7 @@
     $('.tonase').mask('00', {
       reverse: true
     });
-    $('.diskon').mask('00', {
+    $('.discount').mask('00', {
       reverse: true
     });
   }
@@ -190,6 +190,7 @@
       return alert('sudah ada')
     }
     $('tbody').append(`<tr id="baris-${item.idbarang}">
+            <input type="hidden" value="${item.idbarang}" name="idbarang[${item.idbarang}]" />
                 <td>
                   <div class="">
                     <p class="m-0">${item.nmbarang} | ${item.merek}</p>
@@ -200,19 +201,30 @@
                 <td id="harga_jual-${item.idbarang}">
                 ${harga}
                 </td>
-                <td><input value="0" id="qty-${item.idbarang}" name="qty[]" type="number" class="form-control qty"></td>
-                <td><input value="0" id="diskon-${item.idbarang}" name="diskon[]" type="text" class="form-control diskon"></td>
+                <td><input value="1" id="qty-${item.idbarang}" name="qty[${item.idbarang}]" type="number" class="form-control qty"><span style="width:150px;" class=" text-wrap invalid-feedback"></span></td>
+                <td><input value="0" id="discount-${item.idbarang}" name="discount[${item.idbarang}]" type="text" class="form-control discount"><span style="width:150px;" class=" text-wrap invalid-feedback"></span></span></td>
                 <td id="total-${item.idbarang}">0</td>
                 <td class="text-right"><button onclick="deleteItem(this)" type="button" class="btn btn-sm btn-danger"><i class="fa fa-minus"></i></button></td>
               </tr>`)
     selectBarang()
     checkInputMask()
+    checkBtn();
+    $('#modal_form').modal('toggle')
+
   }
 
+  function checkBtn() {
+    const sumTR = $('#input-penjualan > tbody  > tr').length
+    if (sumTR > 0) {
+      $('#btnTambah').attr('disabled', false); //set button enable 
+    } else {
+      $('#btnTambah').attr('disabled', true); //set button enable 
+    }
+  }
   $('body').on('input', '.qty', function() {
     hitungRow(this)
   });
-  $('body').on('input', '.diskon', function() {
+  $('body').on('input', '.discount', function() {
     hitungRow(this)
   });
 
@@ -220,9 +232,9 @@
     var baris = $(element).attr('id').split('-')[1];
     var price = parseFloat(Number($('#harga_jual-' + baris).text().replace(/,.*|[^0-9]/g, '')))
     var qty = parseInt($('#qty-' + baris).val()) || 0;
-    var diskon = parseInt($('#diskon-' + baris).val()) || 0;
+    var discount = parseInt($('#discount-' + baris).val()) || 0;
     var total = price * qty;
-    var fixTotal = total - (total * diskon / 100)
+    var fixTotal = total - (total * discount / 100)
     var totalrp = new Intl.NumberFormat("id-ID", {
       style: "currency",
       currency: "IDR"
@@ -246,5 +258,73 @@
 
   function deleteItem(element) {
     $(element).closest("tr").remove();
+    checkBtn();
+  }
+
+  function simpan() {
+
+    $('#btnTambah').text('saving...'); //change button text
+    $('#btnTambah').attr('disabled', true);
+    const form = $('#form').serialize()
+    console.log(form)
+    $.ajax({
+      url: "<?= base_url('penjualan/tambahPenjualan') ?>",
+      type: "POST",
+      data: form,
+      dataType: "json",
+      success: function(data) {
+        //console.log(data);
+        if (data.status) //if success close modal and reload ajax table
+        {
+          Swal({
+            title: 'Success',
+            text: 'Data Penjualan Berhasil Ditambah',
+            type: 'success'
+          });
+          window.location.href = "<?= base_url('penjualan'); ?>";
+        } else {
+          $.each(data.errors, function(key, value) {
+            if (key === 'idpelanggan') {
+              $('[name="' + key + '"]').addClass('is-invalid');
+              $('[name="' + key + '"]').next().next().text(value); //select span help-block class set text error string
+            } else if (key === 'qty') {
+              $.each(value, function(id, val) {
+                console.log(id)
+                $('[name="' + id + '"]').addClass('is-invalid');
+                $('[name="' + id + '"]').next().text(val);
+                if (val == "") {
+                  $('[name="' + id + '"]').removeClass('is-invalid');
+                  $('[name="' + id + '"]').addClass('is-valid');
+                } //select span help-block class set text error string
+              })
+            } else if (key === 'discount') {
+              $.each(value, function(id, val) {
+                console.log(id)
+                $('[name="' + id + '"]').addClass('is-invalid');
+                $('[name="' + id + '"]').next().text(val);
+                if (val == "") {
+                  $('[name="' + id + '"]').removeClass('is-invalid');
+                  $('[name="' + id + '"]').addClass('is-valid');
+                }
+              })
+            } else {
+              $('[name="' + key + '"]').addClass('is-invalid');
+              $('[name="' + key + '"]').next().text(value); //select span help-block class set text error string
+            } //select parent twice to select div form-group class and add has-error class
+            if (value == "") {
+              $('[name="' + key + '"]').removeClass('is-invalid');
+              $('[name="' + key + '"]').addClass('is-valid');
+            }
+          });
+        }
+        $('#btnTambah').text('save'); //change button text
+        $('#btnTambah').attr('disabled', false); //set button enable 
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        alert('Error adding / update data');
+        $('#btnTambah').text('save'); //change button text
+        $('#btnTambah').attr('disabled', false); //set button enable 
+      }
+    });
   }
 </script>
