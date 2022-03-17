@@ -27,7 +27,8 @@ class Penjualan extends CI_Controller
   public function detail($id)
   {
     $penjualan = $this->db->order_by('tbl_transaksi_penjualan.rec_insert', 'desc')->join('tbl_pelanggan', 'tbl_pelanggan.idpelanggan = tbl_transaksi_penjualan.idpelanggan')->get_where('tbl_transaksi_penjualan', ['tbl_transaksi_penjualan.publish' => 'T', 'tbl_transaksi_penjualan.idt_penjualan' => $id])->row();
-
+    $data['metodebayar'] = $this->db->order_by('idmetode_bayar', 'desc')->get_where('tbl_metode_bayar', ['publish' => 'T', 'idmetode_bayar !=' => 0])->result();
+    $data['statusbayar'] = $this->db->order_by('idstatus_bayar', 'desc')->get_where('tbl_status_bayar', ['publish' => 'T', 'idstatus_bayar !=' => 0])->result();
     $p_detail = $this->db
       ->select('*,tbl_transaksi_penjualan_detail.harga_jual as harga_jual')
       ->join('tbl_barang', 'tbl_barang.idbarang = tbl_transaksi_penjualan_detail.idbarang')
@@ -42,9 +43,17 @@ class Penjualan extends CI_Controller
   public function get_penjualan($jenis = 'semua')
   {
     $html = '<div id="accordion">';
-    $penjualan = $this->db->order_by('tbl_transaksi_penjualan.rec_insert', 'desc')->join('tbl_pelanggan', 'tbl_pelanggan.idpelanggan = tbl_transaksi_penjualan.idpelanggan')->get_where('tbl_transaksi_penjualan', ['tbl_transaksi_penjualan.publish' => 'T'])->result();
+    $query = $this->db
+      ->order_by('tbl_transaksi_penjualan.rec_insert', 'desc')
+      ->join('tbl_pelanggan', 'tbl_pelanggan.idpelanggan = tbl_transaksi_penjualan.idpelanggan');
+    if ($jenis !== 'semua') {
+      $query->where('jenis_do', strtoupper($jenis));
+    }
+    $penjualan = $query->get_where('tbl_transaksi_penjualan', ['tbl_transaksi_penjualan.publish' => 'T', 'status' => 'BELUM BAYAR'])->result();
+
     foreach ($penjualan as $index => $penj) {
       $expand =  $index == 0 ? 'true' : 'false';
+      $collapse = $jenis == 'semua' ? 'semua-' . $penj->idt_penjualan : $penj->jenis_do . '-' . $penj->idt_penjualan;
       $show =  $index == 0 ? 'show' : '';
       $p_detail = $this->db
         ->select('*,tbl_transaksi_penjualan_detail.harga_jual as harga_jual')
@@ -52,17 +61,20 @@ class Penjualan extends CI_Controller
         ->join('tbl_barang_kategori', 'tbl_barang.idkategori = tbl_barang_kategori.idkategori')
         ->get_where('tbl_transaksi_penjualan_detail', ['idt_penjualan' => $penj->idt_penjualan])
         ->result();
-      $html .= '<div class="card"><div class="p-3" style="background: rgb(63, 77, 103); color: white;" data-toggle="collapse" data-target="#collapse-' . $penj->idt_penjualan . '" aria-expanded="' . $expand . '" aria-controls="collapse-' . $penj->idt_penjualan . '" class="card-header" id="headingOne">
+      $html .= '<div class="card my-1"><div class="p-3 rounded" style="background: rgb(63, 77, 103); color: white;" data-toggle="collapse" data-target="#collapse-' . $collapse . '" aria-expanded="' . $expand . '" aria-controls="collapse-' . $collapse . '" class="card-header" id="headingOne">
         <div class="d-flex justify-content-between align-items-center">
+          <div>
           <p class="m-0">' . $penj->nmpelanggan . '</p>
+          <small class="badge badge-light">' . $penj->status . '</small>
+          </div>
           <div class="text-right">
-            <p class="m-0">' . $penj->nofaktur . '
+            <p class="m-0 text-warning font-weight-bold">' . $penj->nofaktur . '
             </p>
             <small>' . $penj->tgl_transaksi . '</small>
           </div>
         </div>
       </div>
-      <div id="collapse-' . $penj->idt_penjualan . '" class="collapse ' . $show . '" aria-labelledby="headingOne" data-parent="#accordion">
+      <div id="collapse-' . $collapse . '" class="collapse ' . $show . '" aria-labelledby="headingOne" data-parent="#accordion">
       <div class="card-body p-1">';
       foreach ($p_detail as $detail) {
         $html .= '<div class="my-1 card">
@@ -153,7 +165,7 @@ class Penjualan extends CI_Controller
           'idpelanggan'   => $this->input->post('idpelanggan'),
           'keterangan'   => $this->input->post('keterangan'),
           'iduser'   => $this->session->userdata('iduser'),
-          'status' => 'MENUNGGU_PEMBAYARAN',
+          'status' => 'BELUM BAYAR',
           'total' => $dpTotal,
         ];
         $idt_penjualan = $this->penjualan->addPenjualan($dp);
@@ -176,7 +188,7 @@ class Penjualan extends CI_Controller
   private function _validate()
   {
     $this->form_validation->set_error_delimiters('', '');
-    $this->form_validation->set_rules('nofaktur', 'no faktur', 'trim|required');
+    $this->form_validation->set_rules('nofaktur', 'no faktur', 'trim|required|is_unique[tbl_transaksi_penjualan.nofaktur]');
     $this->form_validation->set_rules('tgl_transaksi', 'tgl transaksi', 'trim|required');
     $this->form_validation->set_rules('jenis_do', 'jenis do', 'trim|required');
     $this->form_validation->set_rules('idpelanggan', 'pelanggan', 'trim|required');

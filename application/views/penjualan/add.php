@@ -107,7 +107,7 @@
 <script>
   $(document).ready(function() {
     $.ajax({
-      url: '<?= base_url('ajax/get_barang') ?>',
+      url: '<?= base_url('ajax/transaksi/get_barang') ?>',
       method: 'GET',
       success: function(data) {
         $('#listbarang').html(data);
