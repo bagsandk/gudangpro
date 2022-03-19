@@ -1,7 +1,6 @@
 <div class="col-md-12">
   <div class="card">
     <div class="card-body">
-      <a class="btn btn-outline-success float-right" href="<?= base_url('penjualan/add') ?>">Tambah Penjualan</a>
       <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
           <a class="nav-link active" id="nav-semua-tab" data-toggle="tab" href="#nav-semua" role="tab" aria-controls="nav-semua" aria-selected="true">semua</a>
@@ -99,28 +98,28 @@
 <script>
   $(document).ready(function() {
     $.ajax({
-      url: '<?= base_url('ajax/transaksi/get_penjualan') ?>',
+      url: '<?= base_url('ajax/transaksi/get_pembayaran') ?>',
       method: 'GET',
       success: function(data) {
         $('#content-semua').html(data);
       }
     });
     $.ajax({
-      url: '<?= base_url('ajax/transaksi/get_penjualan/takeit') ?>',
+      url: '<?= base_url('ajax/transaksi/get_pembayaran/takeit') ?>',
       method: 'GET',
       success: function(data) {
         $('#content-takeit').html(data);
       }
     });
     $.ajax({
-      url: '<?= base_url('ajax/transaksi/get_penjualan/delivery') ?>',
+      url: '<?= base_url('ajax/transaksi/get_pembayaran/delivery') ?>',
       method: 'GET',
       success: function(data) {
         $('#content-delivery').html(data);
       }
     });
     $.ajax({
-      url: '<?= base_url('penjualan/get_penjualan/kurir') ?>',
+      url: '<?= base_url('ajax/transaksi/get_pembayaran/kurir') ?>',
       method: 'GET',
       success: function(data) {
         $('#content-kurir').html(data);

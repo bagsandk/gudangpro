@@ -42,7 +42,7 @@ $items = [
     ],
   ],
   [
-    "id" => "penjualan",
+    "id" => "main",
     "title" => "Main Menu",
     "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
     "type" => "group",
@@ -50,8 +50,8 @@ $items = [
     "icon" => "icon-ui",
     "children" => [
       [
-        "id" => "penjualan",
-        "title" => "Penjualan",
+        "id" => "transaksi",
+        "title" => "Transaksi",
         "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
         "type" => "collapse",
         "icon" => "feather icon-box",
@@ -61,21 +61,21 @@ $items = [
             "title" => "Penjualan",
             "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
-            "url" => "/penjualan/",
+            "url" => "/penjualan",
           ],
           [
             "id" => "penjualan-pembayaran",
             "title" => "Pembayaran",
             "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
-            "url" => "/penjualan/pembayaran",
+            "url" => "/pembayaran",
           ],
           [
             "id" => "delivery-order",
             "title" => "Delivery Order",
             "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
-            "url" => "/penjualan/delivery-order",
+            "url" => "/delivery_order",
           ],
           [
             "id" => "laporan",

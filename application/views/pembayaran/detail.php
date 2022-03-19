@@ -80,77 +80,91 @@
       </div>
       <small>Ket : cepet ya...</small>
       <div class="d-flex justify-content-end">
-        <?php if ($penjualan->status == 'BELUM BAYAR') { ?>
-          <button type="button" class="btn btn-danger">Batalkan</button>
-          <button type="button" class="btn btn-info ml-2">Edit</button>
-          <button onclick="bayar()" id="btn-bayar" type="button" class="btn btn-success ml-2">Bayar</button>
+        <?php if ($penjualan->status == 'PROSES') { ?>
+          <button type="button" onclick="kirim()" id="btn-kirim" class="btn btn-warning ml-2">Kirim barang</button>
         <?php } ?>
       </div>
     </div>
   </div>
 </div>
-<?php if ($penjualan->status == 'BELUM BAYAR') { ?>
+<?php if ($penjualan->status == 'PROSES') { ?>
   <div class="modal fade" id="modal_form" data-backdrop="static" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered  modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modal_title">Input Pembayaran <span class="badge badge-warning"><?= $penjualan->nofaktur ?></span> </h5>
+          <h5 class="modal-title" id="modal_title">Pengiriman <span class="badge badge-warning"><?= $penjualan->nofaktur ?></span> </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body form">
           <form action="#" id="form" class="form-horizontal">
+            <input type="hidden" name="idt_penjualan" value="<?= $penjualan->idt_penjualan ?>">
             <div class="form-body">
               <div class="form-row">
-                <div class="col-md-6 col-xs-12">
+                <div class="col-md-12 col-xs-12">
                   <div class="form-group">
-                    <label class="control-label">Kode Bayar</label>
-                    <input name="kdtp_penjualan" placeholder="Kode bayar" class="form-control" type="text">
+                    <label class="control-label">Armada <small>(kode|no plat|daya angkut|no stnk|jenis|staf|kondisi)</small></label>
+                    <select data-allow-clear="1" id="idarmada_select2" name="idarmada" class="form-control ">
+                    </select>
                     <span class="invalid-feedback"></span>
                   </div>
                 </div>
                 <div class="col-md-6 col-xs-12">
                   <div class="form-group">
-                    <label class="control-label">Tanggal</label>
-                    <input name="tgl_pembayaran" placeholder="" class="form-control" type="datetime-local">
+                    <label class="control-label">Kode Pengiriman</label>
+                    <input name="kdtpdo_penjualan" placeholder="Kode Pengiriman" class="form-control" type="text">
+                    <span class="invalid-feedback"></span>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                  <div class="form-group">
+                    <label class="control-label">Nama Penerima</label>
+                    <input name="nmpenerima" placeholder="Nama Penerima" class="form-control" type="text">
+                    <span class="invalid-feedback"></span>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                  <div class="form-group">
+                    <label class="control-label">No Telpon</label>
+                    <input name="notelp" placeholder="No Telpon" class="form-control" type="text">
+                    <span class="invalid-feedback"></span>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                  <div class="form-group">
+                    <label class="control-label">Email</label>
+                    <input name="email" placeholder="Email" class="form-control" type="email">
                     <span class="invalid-feedback"></span>
                   </div>
                 </div>
                 <div class="col-md-12 col-xs-12">
-                  <label class="control-label">Metode Bayar</label>
                   <div class="form-group">
-                    <?php foreach ($metodebayar as $i => $mb) { ?>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" checked="<?= $i === 0 ? 'true' : 'false' ?>" type="radio" value="<?= $mb->idmetode_bayar ?>" name="idmetode_bayar" id="metode_bayar-<?= $i ?>" value="option1">
-                        <label class="form-check-label" for="metode_bayar-<?= $i ?>"><?= $mb->metode_bayar ?></label>
-                      </div>
-                    <?php } ?>
+                    <label class="control-label">Alamat Jalan</label>
+                    <input name="alamat_jalan" placeholder="Alamat Jalan" class="form-control" type="text">
+                    <span class="invalid-feedback"></span>
                   </div>
-
                 </div>
-                <div class="col-md-12 col-xs-12">
-                  <label class="control-label">Status Bayar</label>
+                <div class="col-md-4 col-xs-12">
                   <div class="form-group">
-                    <?php foreach ($statusbayar as $i => $mb) { ?>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" checked="<?= $i === 0 ? 'true' : 'false' ?>" type="radio" value="<?= $mb->idstatus_bayar ?>" name="idstatus_bayar" id="status_bayar-<?= $i ?>">
-                        <label class="form-check-label" for="status_bayar-<?= $i ?>"><?= $mb->status_bayar ?></label>
-                      </div>
-                    <?php } ?>
+                    <label class="control-label">Kabupaten</label>
+                    <input name="kabupaten" placeholder="Kabupaten" class="form-control" type="text">
+                    <span class="invalid-feedback"></span>
                   </div>
                 </div>
-                <div id="rekening-bank" class="col-md-12 col-xs-12">
-                  <button type="button" id="btn-pilih-rekening" style="display: none;" onclick="pilihRekening()" class="btn btn-info btn-sm col-12">Pilih Rekening</button>
-                  <input type="hidden" name="idrekeningbank">
-                  <div id="card-rekening">
-
+                <div class="col-md-4 col-xs-12">
+                  <div class="form-group">
+                    <label class="control-label">Provinsi</label>
+                    <input name="provinsi" placeholder="Provinsi" value="LAMPUNG" class="form-control" type="text">
+                    <span class="invalid-feedback"></span>
                   </div>
                 </div>
-                <div class="col-md-12 col-xs-12">
-                  <label class="control-label">Total Bayar</label>
-                  <input name="total" placeholder="" class="form-control" type="text">
-                  <span class="invalid-feedback"></span>
+                <div class="col-md-4 col-xs-12">
+                  <div class="form-group">
+                    <label class="control-label">Negara</label>
+                    <input name="negara" placeholder="Negara" value="INDONESIA" class="form-control" type="text">
+                    <span class="invalid-feedback"></span>
+                  </div>
                 </div>
                 <div class="col-md-12 col-xs-12">
                   <label class="control-label">Keterangan</label>
@@ -168,107 +182,59 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div>
-  <div class="modal fade" id="modal_rekening_bank" tabindex="-1000000" role="dialog">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modal_title">Pilih Barang</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body form">
-          <form action="#" id="form" class="form-horizontal">
-            <div class="form-body">
-              <div class="form-row">
-                <div class="col-md-12 col-xs-12">
-                  <div class="form-group">
-                    <input name="q" placeholder="Cari" class="form-control" type="search">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div id="listrekeningbank" class="row col-md-12">
-            </div>
-          </form>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div>
   <script>
     $(document).ready(function() {
-      $.ajax({
-        url: '<?= base_url('ajax/transaksi/get_rekening_bank') ?>',
-        method: 'GET',
-        success: function(data) {
-          $('#listrekeningbank').html(data);
-        }
+      $('#idarmada_select2').select2({
+        theme: 'bootstrap4',
+        ajax: {
+          url: '<?= base_url('select2/armada') ?>',
+          dataType: 'json',
+          data: function(params) {
+            var query = {
+              search: params.term,
+            }
+            return query;
+          },
+          processResults: function(response) {
+            return {
+              results: response
+            };
+          },
+          cache: true
+        },
+        dropdownParent: $('#modal_form')
       });
-    })
+    });
 
-    function bayar() {
+    function kirim() {
       $('#modal_form').modal('show')
     }
-
-    function pilihRekening() {
-      $('#modal_rekening_bank').modal('show')
-    }
-
-    function tambahRekening(item) {
-      let html = `<div class="card">
-						<div class="card-body">
-							<div class="d-flex justify-content-between">
-								<div class="">
-									<p class="m-0 text-info">No Rek : ${item.norekening}</p>
-									<small class="text-secondary">AN : ${item.nmnasabah}</small><br>
-                  </div>
-                  <div class="text-right">
-									<p class="m-0 text-warning">Bank ${item.nmbank}</p>
-									<small class="text-secondary">Cabang : ${item.cabang}</small><br>
-								</div>
-							</div>
-						</div>
-					</div>`
-      $('#card-rekening').html(html)
-      console.log(item.idrekeningbank)
-      $('[name="idrekeningbank"]').val(item.idrekeningbank)
-      $('#modal_rekening_bank').modal('toggle')
-
-    }
-    $('[name="idmetode_bayar"]').change(function() {
-      const val = $(this).val()
-      if (val != 1) {
-        $('#btn-pilih-rekening').show()
-      } else {
-        $('#btn-pilih-rekening').hide()
-        $('#card-rekening').html('')
-      }
-    })
 
     function save() {
       $('#btnSave').text('saving...'); //change button text
       $('#btnSave').attr('disabled', true);
-      $('#btn-bayar').attr('disabled', true);
-      const form = $('#form').serialize();
+      $('#btn-kirim').attr('disabled', true);
+      const form = $('#form').serialize()
       $.ajax({
-        url: "<?= base_url('pembayaran/tambahPembayaran/' . $penjualan->idt_penjualan) ?>",
+        url: "<?= base_url('delivery_order/kirim/' . $penjualan->idt_penjualan) ?>",
         type: "POST",
         data: form,
         dataType: "json",
         success: function(data) {
+          //console.log(data);
           if (data.status) //if success close modal and reload ajax table
           {
-            $('#btn-bayar').attr('disable', true);
+            $('#modal_form').modal('hide')
             Swal({
               title: 'Success',
-              text: 'Data Penjualan Berhasil Ditambah',
+              text: 'Data Pengiriman Berhasil Dibuat',
               type: 'success'
             });
             window.location.reload();
           } else {
             $.each(data.errors, function(key, value) {
               $('[name="' + key + '"]').addClass('is-invalid');
-              if (key != 'idmetode_bayar' && key != 'idstatus_bayar') {
+              if (key != 'idarmada') {
                 $('[name="' + key + '"]').next().text(value);
               }
               if (value == "") {
@@ -277,16 +243,22 @@
               }
             });
           }
-          $('#btnSave').text('save');
-          $('#btnSave').attr('disabled', false);
-          $('#btn-bayar').attr('disabled', false);
+          $('#btnSave').text('save'); //change button text
+          $('#btnSave').attr('disabled', false); //set button enable 
+          $('#btn-kirim').attr('disabled', false);
         },
         error: function(jqXHR, textStatus, errorThrown) {
           alert('Error adding / update data');
-          $('#btnSave').text('save');
-          $('#btnSave').attr('disabled', false);
-          $('#btn-bayar').attr('disabled', false);
+          $('#btnSave').text('save'); //change button text
+          $('#btnSave').attr('disabled', false); //set button enable 
+          $('#btn-kirim').attr('disabled', false);
         }
+      });
+      $('#form input, #form textarea').on('keyup', function() {
+        $(this).removeClass('is-valid is-invalid');
+      });
+      $('#form select').on('change', function() {
+        $(this).removeClass('is-valid is-invalid');
       });
     }
   </script>
