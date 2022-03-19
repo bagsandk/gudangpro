@@ -86,7 +86,7 @@ class Transaksi extends CI_Controller
         <p class="card-text"><small>Ket : ' . $penj->keterangan . '</small></p>
       </div>
       <div class="col-md-4 col-sm-4 col-6">
-        <h6 class="text-right my-2 mr-2"><small>Total : </small>Rp ' . number_format($penj->total, 2) . '</h6><a href="' . base_url('penjualan/detail/' . $penj->idt_penjualan) . '" class="float-right m-0 mr-1 btn text-info btn-sm">Detail</a>
+        <h6 class="text-right my-2 mr-2"><small>Total : </small>Rp ' . number_format($penj->total, 2) . '</h6><a href="' . base_url((($status == 'PROSES') ? 'pembayaran' : 'penjualan') . '/detail/' . $penj->idt_penjualan) . '" class="float-right m-0 mr-1 btn text-info btn-sm">Detail</a>
       </div>
     </div>
   </div>
@@ -165,6 +165,60 @@ class Transaksi extends CI_Controller
     } else {
       $html .= '<h5 class="text-center m-4 p-4">Kosong ...</h5>';
     }
+    echo $html;
+  }
+
+  public function get_do($jenis = 'semua')
+  {
+    $status = 'DIKIRIM';
+    $this->get_list_do($jenis, $status);
+  }
+
+  private function get_list_do($jenis = 'semua', $status = 'DIKIRIM')
+  {
+    $html = '<div id="accordion">';
+    $query = $this->db
+      ->order_by('tbl_transaksi_penjualan_do.rec_insert', 'desc')
+      ->join('tbl_armada', 'tbl_armada.idarmada = tbl_transaksi_penjualan_do.idarmada');
+    if ($jenis !== 'semua') {
+      $query->where('status_do', strtoupper($jenis));
+    }
+    $penjualan = $query->get_where('tbl_transaksi_penjualan_do', ['tbl_transaksi_penjualan_do.publish' => 'T'])->result();
+
+    foreach ($penjualan as $index => $penj) {
+      $expand =  $index == 0 ? 'true' : 'false';
+      $collapse = $jenis == 'semua' ? 'semua-' . $penj->idtpdo_penjualan : $penj->status_do . '-' . $penj->idtpdo_penjualan;
+      $show =  $index == 0 ? 'show' : '';
+
+      $html .= '<div class="card my-1"><div class="p-3 rounded" style="background: rgb(63, 77, 103); color: white;" data-toggle="collapse" data-target="#collapse-' . $collapse . '" aria-expanded="' . $expand . '" aria-controls="collapse-' . $collapse . '" class="card-header" id="headingOne">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+          <p class="m-0">' . $penj->nmpenerima . '</p>
+          <small class="badge badge-light">' . $status . ' - ' . $penj->status_do . '</small>
+          </div>
+          <div class="text-right">
+            <p class="m-0 text-warning font-weight-bold">' . $penj->kdtpdo_penjualan . '
+            </p>
+            <small>' . substr($penj->tgl_buat, 0, 10) . '</small>
+          </div>
+        </div>
+      </div>
+      <div id="collapse-' . $collapse . '" class="collapse ' . $show . '" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body p-1">';
+
+      $html .= '<div class="row">
+      <div class="col-md-8 col-sm-8 col-6">
+        <p class="card-text"><small>Ket : ' . $penj->keterangan . '</small></p>
+      </div>
+      <div class="col-md-4 col-sm-4 col-6">
+        <a href="' . base_url('delivery_order/detail/' . $penj->idtpdo_penjualan) . '" class="float-right m-0 mr-1 btn text-info btn-sm">Detail</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>';
+    }
+    $html .= '</div>';
     echo $html;
   }
 }

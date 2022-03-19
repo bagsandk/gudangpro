@@ -61,7 +61,7 @@ $items = [
             "title" => "Penjualan",
             "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
-            "url" => "/penjualan/",
+            "url" => "/penjualan",
           ],
           [
             "id" => "penjualan-pembayaran",
@@ -75,7 +75,7 @@ $items = [
             "title" => "Delivery Order",
             "level" => "Super Admin|Administrator|Manajer|Keuangan|Gudang",
             "type" => "item",
-            "url" => "/delivery-order",
+            "url" => "/delivery_order",
           ],
           [
             "id" => "laporan",
