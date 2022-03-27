@@ -141,13 +141,15 @@ class Penjualan extends CI_Controller
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
       } else {
         $dpTotal = 0;
+        $totalTonase = 0;
         $dpItems = [];
         foreach ($this->input->post('idbarang') as $id => $val) {
           $bar  = $this->barang->get_by_id($id);
           $qty = $this->input->post('qty')[$id];
-          $discount = $this->input->post('discount')[$id];
+          $discount = $this->input->post('discount')[$id] ? $this->input->post('discount')[$id] : 0;
           $total = $bar->harga_jual * $qty;
-          $totalFix = $total - ($total * $discount / 100);
+          $totalTonase += $bar->tonase;
+          $totalFix = $total - ($qty * $discount);
           $dpTotal += $totalFix;
           $dpItems[] = [
             'harga_jual' => $bar->harga_jual,
@@ -166,7 +168,7 @@ class Penjualan extends CI_Controller
           'keterangan'   => $this->input->post('keterangan'),
           'iduser'   => $this->session->userdata('iduser'),
           'status' => 'BELUM BAYAR',
-          'total' => $dpTotal,
+          'total' => $dpTotal + ($totalTonase * 60),
         ];
         $idt_penjualan = $this->penjualan->addPenjualan($dp);
         for ($index = 0; count($dpItems) > $index; $index++) {

@@ -41,14 +41,18 @@
               <th>Harga</th>
               <th>Qty</th>
               <th>Tonase</th>
-              <th>Diskon %</th>
-              <th>Total</th>
+              <th>Diskon(Rp/Qty)</th>
+              <th>Total Diskon</th>
+              <th>Sub Total</th>
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($detail as $item) : ?>
+            <?php
+            $tonase = 0;
+            foreach ($detail as $item) : ?>
               <?php $total = $item->harga_jual * $item->qty;
-              $totalFix = $total - ($total * $item->discount / 100); ?>
+              $tonase += $item->tonase;
+              $totalFix = $total - ($item->qty * $item->discount); ?>
               <tr id="baris-<?= $item->idbarang ?>">
                 <td>
                   <?= $item->nmbarang ?>
@@ -63,7 +67,10 @@
                   <?= $item->tonase ?>
                 </td>
                 <td>
-                  <?= $item->discount ?>
+                  Rp <?= number_format($item->discount, 2) ?>
+                </td>
+                <td>
+                  Rp <?= number_format($item->qty * $item->discount, 2) ?>
                 </td>
                 <td id="total-0">Rp <?= number_format($totalFix, 2) ?></td>
               </tr>
@@ -71,18 +78,31 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="4"></td>
-              <td span="">Total Harga</td>
-              <td id="total-semua">Rp <?= number_format($penjualan->total, 2) ?></td>
+              <td colspan="2"></td>
+              <td span="">Total Tonase</td>
+              <td id="total-semua">Rp <?= $tonase ?></td>
+              <td></td>
+              <td span="">Total</td>
+              <td class="" id="total-semua">Rp <?= number_format($penjualan->total, 2) ?></td>
+            </tr>
+            <tr>
+              <td colspan="5"></td>
+              <td span="">Ongkir</td>
+              <td class="" id="total-semua">Rp <?= number_format($tonase * 60, 2) ?></td>
+            </tr>
+            <tr>
+              <td colspan="5"></td>
+              <td span="">Grand Total</td>
+              <td class="text-danger" id="total-semua">Rp <?= number_format($penjualan->total + $tonase * 60, 2) ?></td>
             </tr>
           </tfoot>
         </table>
       </div>
-      <small>Ket : cepet ya...</small>
+      <small><?= $penjualan->keterangan ?></small>
       <div class="d-flex justify-content-end">
         <?php if ($penjualan->status == 'BELUM BAYAR') { ?>
           <button type="button" class="btn btn-danger">Batalkan</button>
-          <button type="button" class="btn btn-info ml-2">Edit</button>
+          <!-- <button type="button" class="btn btn-info ml-2">Edit</button> -->
           <button onclick="bayar()" id="btn-bayar" type="button" class="btn btn-success ml-2">Bayar</button>
         <?php } ?>
       </div>

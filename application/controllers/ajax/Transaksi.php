@@ -69,12 +69,12 @@ class Transaksi extends CI_Controller
               <p class="text-mute my-0 card-text"><small>kategori : ' . $detail->nmkategori . '</small></p>
               <small>tonase : ' . $detail->tonase . '</small>
               <br>
-              <small>x' . $detail->qty . '</small>
+              <small>qty : ' . $detail->qty . '</small>
             </div>
             <div class="d-flex justify-content-end align-items-center col-md-3 col-sm-3 col-4">
               <div class="text-right">
-                <h6 class="text-right">Rp ' . number_format($detail->harga_jual, 2) . '</h6>
-                <p>-' . $detail->discount . '%</p>
+                <h6 class="text-primary text-right">Rp ' . number_format($detail->harga_jual, 2) . '</h6>
+                <small class="text-danger">Diskon Rp ' . number_format($detail->discount, 2) . ' / qty</small>
               </div>
             </div>
           </div>
@@ -86,6 +86,7 @@ class Transaksi extends CI_Controller
         <p class="card-text"><small>Ket : ' . $penj->keterangan . '</small></p>
       </div>
       <div class="col-md-4 col-sm-4 col-6">
+        <h4 class="text-right my-2 mr-2 text-success"><small>Grand Total : </small>Rp ' . number_format($penj->total, 2) . '</h4>
         <h6 class="text-right my-2 mr-2"><small>Total : </small>Rp ' . number_format($penj->total, 2) . '</h6><a href="' . base_url((($status == 'PROSES') ? 'pembayaran' : 'penjualan') . '/detail/' . $penj->idt_penjualan) . '" class="float-right m-0 mr-1 btn text-info btn-sm">Detail</a>
       </div>
     </div>
@@ -112,12 +113,13 @@ class Transaksi extends CI_Controller
 					<div class="card">
 						<div class="card-body">
 							<div class="d-flex justify-content-between">
-								<div class="">
-									<p class="m-0">' . $b->nmbarang . ' | ' . $b->merek . '</p>
-									<small class="text-secondary">' . $b->nmsatuan . '</small><br>
-									<small class="text-secondary">' . $b->nmkategori . '</small><br>
+								<div class="col-6">
+									<p class="m-0">' . $b->nmbarang . '</p>
+									<p class="m-0 text-danger">' . $b->merek . '</p>
+									<small class="text-secondary">satuan : ' . $b->nmsatuan . '</small><br>
+									<small class="text-secondary">kategori : ' . $b->nmkategori . '</small><br>
 								</div>
-								<div class="text-right">
+								<div class="col-6 text-right">
 									<p class="m-0 text-warning">Rp ' . number_format($b->harga_jual, 2) . '</p>
 									<small class="text-secondary">tersedia : ' . $b->stok . '</small><br>
 									<small class="text-secondary">tonase : ' . $b->tonase . '</small>
