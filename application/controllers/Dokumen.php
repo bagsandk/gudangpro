@@ -93,13 +93,13 @@ class Dokumen extends CI_Controller
     $pdf->Cell(35, 6, '', 1, 0, 'C');
     $pdf->Cell(30, 6, '', 1, 0, 'C');
     $pdf->Cell(35, 6, '', 1, 0, 'C');
-    $pdf->Cell(35, 6, 'Rp ' . number_format($penjualan->total + $tonase * 60, 2), 1, 1, 'C');
+    $pdf->Cell(35, 6, 'Rp ' . number_format($penjualan->total, 2), 1, 1, 'C');
 
 
 
     $pdf->Cell(10, 10, '', 0, 1);
     $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(10, 6, 'TERBILANG : ' . strtoupper(terbilang($penjualan->total + $tonase * 60)), 0, 1, 'L');
+    $pdf->Cell(10, 6, 'TERBILANG : ' . strtoupper(terbilang($penjualan->total)), 0, 1, 'L');
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(10, 6, 'Memo : -*', 0, 1);
     $pdf->Cell(10, 20, '', 0, 1);
