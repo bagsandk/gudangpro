@@ -33,7 +33,7 @@ class Transaksi extends CI_Controller
     if ($jenis !== 'semua') {
       $query->where('jenis_do', strtoupper($jenis));
     }
-    $penjualan = $query->get_where('tbl_transaksi_penjualan', ['tbl_transaksi_penjualan.publish' => 'T', 'status' => $status])->result();
+    $penjualan = $query->get_where('tbl_transaksi_penjualan', ['tbl_transaksi_penjualan.publish' => 'T'])->result();
 
     foreach ($penjualan as $index => $penj) {
       $expand =  $index == 0 ? 'true' : 'false';
@@ -60,7 +60,9 @@ class Transaksi extends CI_Controller
       </div>
       <div id="collapse-' . $collapse . '" class="collapse ' . $show . '" aria-labelledby="headingOne" data-parent="#accordion">
       <div class="card-body p-1">';
+      $tonase = 0;
       foreach ($p_detail as $detail) {
+        $tonase += $detail->tonase;
         $html .= '<div class="my-1 card">
         <div class="p-2 card-body">
           <div class="row">
@@ -86,8 +88,9 @@ class Transaksi extends CI_Controller
         <p class="card-text"><small>Ket : ' . $penj->keterangan . '</small></p>
       </div>
       <div class="col-md-4 col-sm-4 col-6">
+      <h6 class="text-right my-2 mr-2"><small>Ongkir : </small>Rp ' . number_format($tonase * 60, 2) . '</h6>
         <h4 class="text-right my-2 mr-2 text-success"><small>Grand Total : </small>Rp ' . number_format($penj->total, 2) . '</h4>
-        <h6 class="text-right my-2 mr-2"><small>Total : </small>Rp ' . number_format($penj->total, 2) . '</h6><a href="' . base_url((($status == 'PROSES') ? 'pembayaran' : 'penjualan') . '/detail/' . $penj->idt_penjualan) . '" class="float-right m-0 mr-1 btn text-info btn-sm">Detail</a>
+        <a href="' . base_url((($status == 'PROSES') ? 'pembayaran' : 'penjualan') . '/detail/' . $penj->idt_penjualan) . '" class="float-right m-0 mr-1 btn text-info btn-sm">Detail</a>
       </div>
     </div>
   </div>

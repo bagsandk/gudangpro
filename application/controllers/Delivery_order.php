@@ -38,7 +38,7 @@ class Delivery_order extends CI_Controller
             ->join('tbl_barang', 'tbl_barang.idbarang = tbl_transaksi_penjualan_detail.idbarang')
             ->join('tbl_barang_kategori', 'tbl_barang.idkategori = tbl_barang_kategori.idkategori')
             ->get_where('tbl_transaksi_penjualan_detail', ['idt_penjualan' => $do['idt_penjualan']])
-            ->result_array();
+            ->result();
         $data['penjualan'] = $penjualan;
         $data['detail'] = $p_detail;
         $data['content'] = 'delivery_order/detail';

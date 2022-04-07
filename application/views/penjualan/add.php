@@ -101,7 +101,7 @@
                   <span class="invalid-feedback"></span>
                 </div>
               </div>
-              <div class="col-md-4 pb-1">
+              <div class="col-md-4 pb-1 mt-1">
                 <button style="width: 100%;" disabled="true" id="btnTambah" onclick="simpan()" type="button" class="btn btn-success mt-4 mb-0">Simpan</button>
               </div>
             </div>

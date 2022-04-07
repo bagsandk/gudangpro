@@ -9296,7 +9296,7 @@ table.footable-paging-center > tfoot > tr.footable-paging > td {
 .auth-wrapper .auth-bg .r:last-child {
   left: -100px;
   bottom: -100px;
-  background: linear-gradient(-135deg, #899fd4 0%, #a389d4 100%);
+  background: linear-gradient(-135deg, #899fd4 0%, #fed001 100%);
 }
 .auth-wrapper .auth-bg .r.s {
   width: 20px;

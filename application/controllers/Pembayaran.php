@@ -77,9 +77,19 @@ class Pembayaran extends CI_Controller
     $p_detail = $this->db
       ->select('*,tbl_transaksi_penjualan_detail.harga_jual as harga_jual')
       ->join('tbl_barang', 'tbl_barang.idbarang = tbl_transaksi_penjualan_detail.idbarang')
+      ->join('tbl_barang_satuan', 'tbl_barang.idsatuan = tbl_barang_satuan.idsatuan')
       ->join('tbl_barang_kategori', 'tbl_barang.idkategori = tbl_barang_kategori.idkategori')
       ->get_where('tbl_transaksi_penjualan_detail', ['idt_penjualan' => $penjualan->idt_penjualan])
       ->result();
+    $p_bayar = $this->db
+      ->select('*,tbl_transaksi_penjualan_pembayaran.total as total')
+      ->join('tbl_transaksi_penjualan', 'tbl_transaksi_penjualan.idt_penjualan = tbl_transaksi_penjualan_pembayaran.idt_penjualan')
+      ->join('tbl_metode_bayar', 'tbl_transaksi_penjualan_pembayaran.idmetode_bayar = tbl_metode_bayar.idmetode_bayar')
+      ->join('tbl_status_bayar', 'tbl_transaksi_penjualan_pembayaran.idstatus_bayar = tbl_status_bayar.idstatus_bayar')
+      ->join('tbl_rekening_bank', 'tbl_transaksi_penjualan_pembayaran.idrekeningbank = tbl_rekening_bank.idrekeningbank')
+      ->get_where('tbl_transaksi_penjualan_pembayaran', ['tbl_transaksi_penjualan_pembayaran.idt_penjualan' => $penjualan->idt_penjualan, 'tbl_transaksi_penjualan_pembayaran.publish' => 'T',])
+      ->result();
+    $data['pembayaran'] = $p_bayar;
     $data['penjualan'] = $penjualan;
     $data['detail'] = $p_detail;
     $data['content'] = 'pembayaran/detail';

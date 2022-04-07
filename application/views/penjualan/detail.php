@@ -1,37 +1,43 @@
+<?php
+$sdhdibayar = 0;
+foreach ($pembayaran as $pem) {
+  $sdhdibayar += $pem->total;
+}
+?>
 <div class="col-md-12">
   <div class="card">
     <div class="card-body">
-      <h3>PT Gudang Pro</h3>
-      <p>Jl. Soekarno Hatta No.10, Rajabasa Raya, Kec. Rajabasa, Kota Bandar Lampung, Lampung 35141</p>
-      <div class="d-flex justify-content-between mt-4">
-        <div>
-          <h3 class="text-warning"><?= $penjualan->nofaktur ?></h3>
-          <table class="table table-sm">
-            <tr>
-              <td style="padding:3px">Tanggal</td>
-              <td style="padding:3px">:</td>
-              <td style="padding:3px"><?= $penjualan->tgl_transaksi ?></td>
-            </tr>
-            <tr>
-              <td style="padding:3px">Jenis</td>
-              <td style="padding:3px">:</td>
-              <td style="padding:3px"><?= $penjualan->jenis_do ?></td>
-            </tr>
-            <tr>
-              <td style="padding:3px">Status</td>
-              <td style="padding:3px">:</td>
-              <td style="padding:3px"><?= $penjualan->status ?></td>
-            </tr>
-          </table>
+      <div class="col-12 d-flex justify-content-between mt-4">
+        <div class="col-4 text-left">
+          <img width="100" src="<?= base_url('assets/images/logo-1.png') ?>" />
         </div>
-        <div class="text-right">
-          <h4 class="text-info">To</h4>
-          <p class="m-1">Nama : <?= $penjualan->nmpelanggan ?></p>
+        <div class="col-4 text-center">
+          <p>PT.Central Artha Ulam</p>
+        </div>
+        <div class="col-4 text-right">
+          <h5>Status Pembayaran <span class="badge badge-<?= $sdhdibayar < $penjualan->total ? 'warning' : 'success' ?>"><?= $sdhdibayar < $penjualan->total ? 'Belum Lunas' : 'Lunas' ?></span></h5>
+          <h5>Status Penjualan <span class="badge badge-info"><?= $penjualan->status ?></span></h5>
+          <a target="_blank" class="btn btn-outline-danger" href="<?= base_url('dokumen/faktur/' . $penjualan->idt_penjualan) ?>">Cetak Faktur <i class="fa fa-print"></i></a>
+
+        </div>
+      </div>
+      <h3 class="text-center text-weight-bold">DETAIL PENJUALAN</h3>
+      <div class="col-12 d-flex justify-content-between mt-4">
+        <div class="col-4 text-left">
+          <p>Jl. Soekarno Hatta No.10, Rajabasa Raya, Kec. Rajabasa, Kota Bandar Lampung, Lampung 35141</p>
+        </div>
+        <div class="col-4 text-center">
+          <p> Tanggal : <?= $penjualan->tgl_transaksi ?></p>
+          <p> Faktur : <?= $penjualan->nofaktur ?></p>
+        </div>
+        <div class="col-4 text-right">
+          <p class="m-1">Pelanggan : <?= $penjualan->nmpelanggan ?></p>
           <p class="m-1"> Alamat : <?= $penjualan->alamat_jalan . ' ' . $penjualan->kabupaten . ' ' . $penjualan->provinsi . ' ' . $penjualan->negara  ?></p>
-          <p class="m-1"> No Telp : <?= $penjualan->notelp ?></p>
+          <p class="m-1"> Telepon : <?= $penjualan->notelp ?></p>
           <p class="m-1"> Email : <?= $penjualan->email ?> </p>
         </div>
       </div>
+
       <div class="table-responsive mt-4">
         <p>Items : </p>
         <table id="input-penjualan" class="table table-sm">
@@ -49,10 +55,12 @@
           <tbody>
             <?php
             $tonase = 0;
+            $totalItem = 0;
             foreach ($detail as $item) : ?>
               <?php $total = $item->harga_jual * $item->qty;
               $tonase += $item->tonase;
-              $totalFix = $total - ($item->qty * $item->discount); ?>
+              $totalFix = $total - ($item->qty * $item->discount);
+              $totalItem += $totalFix; ?>
               <tr id="baris-<?= $item->idbarang ?>">
                 <td>
                   <?= $item->nmbarang ?>
@@ -80,10 +88,10 @@
             <tr>
               <td colspan="2"></td>
               <td span="">Total Tonase</td>
-              <td id="total-semua">Rp <?= $tonase ?></td>
+              <td id="total-semua"><?= $tonase ?></td>
               <td></td>
               <td span="">Total</td>
-              <td class="" id="total-semua">Rp <?= number_format($penjualan->total, 2) ?></td>
+              <td class="" id="total-semua">Rp <?= number_format($totalItem, 2) ?></td>
             </tr>
             <tr>
               <td colspan="5"></td>
@@ -93,23 +101,96 @@
             <tr>
               <td colspan="5"></td>
               <td span="">Grand Total</td>
-              <td class="text-danger" id="total-semua">Rp <?= number_format($penjualan->total + $tonase * 60, 2) ?></td>
+              <td class="text-danger" id="total-semua">Rp <?= number_format($penjualan->total, 2) ?></td>
             </tr>
           </tfoot>
         </table>
       </div>
-      <small><?= $penjualan->keterangan ?></small>
+      <small class="mb-4">ket: <?= $penjualan->keterangan ?></small>
+      <h4 class="text-capitalize mt-4">Terbilang : <?= terbilang($penjualan->total) ?></h4>
       <div class="d-flex justify-content-end">
         <?php if ($penjualan->status == 'BELUM BAYAR') { ?>
           <button type="button" class="btn btn-danger">Batalkan</button>
+        <?php }
+        if ($sdhdibayar < $penjualan->total) { ?>
           <!-- <button type="button" class="btn btn-info ml-2">Edit</button> -->
           <button onclick="bayar()" id="btn-bayar" type="button" class="btn btn-success ml-2">Bayar</button>
         <?php } ?>
       </div>
+      <?php if (count($pembayaran) !== 0) : ?>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          Detail Pembayaran
+        </button>
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body">
+            <div class="table-responsive mt-4">
+              <table id="input-penjualan" class="table table-sm">
+                <thead>
+                  <tr>
+                    <th>KD</th>
+                    <th>Tgl Bayar</th>
+                    <th>Metode Bayar</th>
+                    <th>Rekening Bank</th>
+                    <th>Status Bayar</th>
+                    <th>Jumlah</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                  foreach ($pembayaran as $pem) :
+                  ?>
+                    <tr>
+                      <td><?= $pem->kdtp_penjualan ?></td>
+                      <td><?= $pem->tgl_pembayaran ?></td>
+                      <td><?= $pem->metode_bayar ?></td>
+                      <td>
+                        No-Rek : <?= $pem->norekening ?><br>
+                        AN : <?= $pem->nmnasabah ?><br>
+                      </td>
+                      <td><?= $pem->status_bayar ?></td>
+                      <td>Rp <?= number_format($pem->total, 2) ?></td>
+                    </tr>
+                  <?php endforeach ?>
+                  <tr>
+                    <td colspan="4">
+                    </td>
+                    <td>
+                      Total Pembayaran
+                    </td>
+                    <td>
+                      Rp <?= number_format($sdhdibayar, 2) ?>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">
+                    </td>
+                    <td>
+                      Harus Dibayar
+                    </td>
+                    <td>
+                      Rp <?= number_format($penjualan->total, 2) ?>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">
+                    </td>
+                    <td>
+                      Status
+                    </td>
+                    <td>
+                      <h4> <span class="badge badge-<?= $sdhdibayar < $penjualan->total ? 'warning' : 'success' ?>"><?= $sdhdibayar < $penjualan->total ? 'Belum Lunas' : 'Lunas' ?></span></h4>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      <?php endif ?>
     </div>
   </div>
 </div>
-<?php if ($penjualan->status == 'BELUM BAYAR') { ?>
+<?php if ($sdhdibayar < $penjualan->total) { ?>
   <div class="modal fade" id="modal_form" data-backdrop="static" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered  modal-dialog-scrollable" role="document">
       <div class="modal-content">
@@ -284,7 +365,7 @@
               text: 'Data Penjualan Berhasil Ditambah',
               type: 'success'
             });
-            window.location.reload();
+            window.location.href = "<?= base_url('pembayaran/detail/' . $penjualan->idt_penjualan); ?>";
           } else {
             $.each(data.errors, function(key, value) {
               $('[name="' + key + '"]').addClass('is-invalid');

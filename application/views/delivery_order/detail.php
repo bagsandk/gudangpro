@@ -2,8 +2,15 @@
   <div class="card">
     <div class="card-body">
       <div class="d-flex justify-content-between">
-        <h3>PT Gudang Pro</h3>
-        <small><?= substr($do['tgl_buat'], 0, 10) ?></small>
+        <div class="d-flex justify-content-between align-items-center">
+          <img class="mb-4" width="100" src="<?= base_url('assets/images/logo-1.png') ?>" />
+          <h3 class="mx-3">PT.Central Artha Ulam</h3>
+        </div>
+        <div class="text-right">
+          <small><?= substr($do['tgl_buat'], 0, 10) ?></small>
+          <br>
+          <a target="_blank" class="btn btn-outline-danger" href="<?= base_url('dokumen/do/' . $penjualan['idt_penjualan']) ?>">Cetak DO <i class="fa fa-print"></i></a>
+        </div>
       </div>
       <p>Jl. Soekarno Hatta No.10, Rajabasa Raya, Kec. Rajabasa, Kota Bandar Lampung, Lampung 35141</p>
       <div class="d-flex justify-content-between mt-4">
@@ -59,29 +66,38 @@
               <th>Harga</th>
               <th>Qty</th>
               <th>Tonase</th>
-              <th>Diskon %</th>
-              <th>Total</th>
+              <th>Diskon(Rp/Qty)</th>
+              <th>Total Diskon</th>
+              <th>Sub Total</th>
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($detail as $item) : ?>
-              <?php $total = $item['harga_jual'] * $item['qty'];
-              $totalFix = $total - ($total * $item['discount'] / 100); ?>
-              <tr id="baris-<?= $item['idbarang'] ?>">
+            <?php
+            $tonase = 0;
+            $totalItem = 0;
+            foreach ($detail as $item) : ?>
+              <?php $total = $item->harga_jual * $item->qty;
+              $tonase += $item->tonase;
+              $totalFix = $total - ($item->qty * $item->discount);
+              $totalItem += $totalFix; ?>
+              <tr id="baris-<?= $item->idbarang ?>">
                 <td>
-                  <?= $item['nmbarang'] ?>
+                  <?= $item->nmbarang ?>
                 </td>
                 <td>
-                  Rp <?= number_format($item['harga_jual'], 2) ?>
+                  Rp <?= number_format($item->harga_jual, 2) ?>
                 </td>
                 <td>
-                  <?= $item['qty'] ?>
+                  <?= $item->qty ?>
                 </td>
                 <td>
-                  <?= $item['tonase'] ?>
+                  <?= $item->tonase ?>
                 </td>
                 <td>
-                  <?= $item['discount'] ?>
+                  Rp <?= number_format($item->discount, 2) ?>
+                </td>
+                <td>
+                  Rp <?= number_format($item->qty * $item->discount, 2) ?>
                 </td>
                 <td id="total-0">Rp <?= number_format($totalFix, 2) ?></td>
               </tr>
@@ -89,9 +105,22 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="4"></td>
-              <td span="">Total Harga</td>
-              <td id="total-semua">Rp <?= number_format($penjualan['total'], 2) ?></td>
+              <td colspan="2"></td>
+              <td span="">Total Tonase</td>
+              <td id="total-semua"><?= $tonase ?></td>
+              <td></td>
+              <td span="">Total</td>
+              <td class="" id="total-semua">Rp <?= number_format($totalItem, 2) ?></td>
+            </tr>
+            <tr>
+              <td colspan="5"></td>
+              <td span="">Ongkir</td>
+              <td class="" id="total-semua">Rp <?= number_format($tonase * 60, 2) ?></td>
+            </tr>
+            <tr>
+              <td colspan="5"></td>
+              <td span="">Grand Total</td>
+              <td class="text-danger" id="total-semua">Rp <?= number_format($penjualan['total'], 2) ?></td>
             </tr>
           </tfoot>
         </table>
