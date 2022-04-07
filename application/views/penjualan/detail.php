@@ -356,17 +356,17 @@ foreach ($pembayaran as $pem) {
         type: "POST",
         data: form,
         dataType: "json",
-        success: function(data) {
+        success: async function(data) {
           if (data.status) //if success close modal and reload ajax table
           {
             $('#btn-bayar').attr('disable', true);
+            $('#modal_form').modal('hide')
             Swal({
               title: 'Success',
               text: 'Data Penjualan Berhasil Ditambah',
               type: 'success'
             });
-            sleep(2)
-            window.location.href = "<?= base_url('pembayaran/detail/' . $penjualan->idt_penjualan); ?>";
+            setTimeout(window.location.href = "<?= base_url('pembayaran/detail/' . $penjualan->idt_penjualan); ?>", 2000)
           } else {
             $.each(data.errors, function(key, value) {
               $('[name="' + key + '"]').addClass('is-invalid');

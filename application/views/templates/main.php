@@ -281,7 +281,7 @@ $items = [
   <nav class="pcoded-navbar">
     <div class="navbar-wrapper">
       <div class="navbar-brand header-logo">
-        <a href="index.html" class="b-brand">
+        <a href="<?= base_url('home') ?>" class="b-brand">
           <div class=""><img width="55" src="<?= base_url('assets/images/logo-1.png') ?>" class=""></div>
           <span class="b-title">Gudang Pro</span>
         </a>
@@ -343,7 +343,7 @@ $items = [
   <header class="navbar pcoded-header navbar-expand-lg navbar-light">
     <div class="m-header">
       <a class="mobile-menu" id="mobile-collapse1" href="javascript:"><span></span></a>
-      <a href="index.html" class="b-brand">
+      <a href="<?= base_url('home') ?>" class="b-brand">
         <div class="b-bg">
           <i class="feather icon-trending-up"></i>
         </div>

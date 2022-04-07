@@ -320,7 +320,7 @@ foreach ($pembayaran as $pem) {
         data: form,
         dataType: "json",
         success: function(data) {
-          //console.log(data);
+          console.log(data);
           if (data.status) //if success close modal and reload ajax table
           {
             $('#modal_form').modal('hide')
@@ -329,8 +329,7 @@ foreach ($pembayaran as $pem) {
               text: 'Data Pengiriman Berhasil Dibuat',
               type: 'success'
             });
-            sleep(2)
-            window.location.href = "<?= base_url('delivery_order/detail/' . $penjualan->idt_penjualan); ?>";
+            setTimeout(window.location.href = "<?= base_url('delivery_order/detail/' . $penjualan->idt_penjualan); ?>", 2000)
           } else {
             $.each(data.errors, function(key, value) {
               $('[name="' + key + '"]').addClass('is-invalid');

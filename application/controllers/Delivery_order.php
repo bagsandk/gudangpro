@@ -27,7 +27,7 @@ class Delivery_order extends CI_Controller
             ->join('tbl_armada a', 'a.idarmada=do.idarmada')
             ->join('tbl_armada_jenis ja', 'a.idjenis_armada=ja.idjenis_armada')
             ->join('tbl_staf s', 's.idstaf=a.idstaf')
-            ->get_where('tbl_transaksi_penjualan_do do', ['do.publish' => 'T', 'idtpdo_penjualan' => $id])
+            ->get_where('tbl_transaksi_penjualan_do do', ['do.publish' => 'T', 'do.idt_penjualan' => $id])
             ->row_array();
         $data['do'] = $do;
         $penjualan = $this->db->order_by('tbl_transaksi_penjualan.rec_insert', 'desc')->join('tbl_pelanggan', 'tbl_pelanggan.idpelanggan = tbl_transaksi_penjualan.idpelanggan')->get_where('tbl_transaksi_penjualan', ['tbl_transaksi_penjualan.publish' => 'T', 'tbl_transaksi_penjualan.idt_penjualan' => $do['idt_penjualan']])->row_array();
@@ -46,8 +46,8 @@ class Delivery_order extends CI_Controller
     }
     public function kirim($idt_penjualan)
     {
-        $data = array();
-        $data['status'] = TRUE;
+        $rdata = array();
+        $rdata['status'] = TRUE;
         $checkpt = $this->db->get_where('tbl_transaksi_penjualan', ['publish' => 'T', 'idt_penjualan' => $idt_penjualan])->row();
         if ($checkpt) {
             $this->_validate();
@@ -64,11 +64,11 @@ class Delivery_order extends CI_Controller
                     'idarmada' => form_error('idarmada'),
                     'keterangan' => form_error('keterangan'),
                 );
-                $data = array(
+                $rdata = array(
                     'status'     => FALSE,
                     'errors'     => $errors,
                 );
-                $this->output->set_content_type('application/json')->set_output(json_encode($data));
+                $this->output->set_content_type('application/json')->set_output(json_encode($rdata));
             } else {
                 $this->db->trans_begin();
                 $updateStatus = [
@@ -77,12 +77,12 @@ class Delivery_order extends CI_Controller
                 $this->do->update('tbl_transaksi_penjualan', $updateStatus, ['idt_penjualan' => $this->input->post('idt_penjualan')]);
                 if ($this->db->trans_status() === FALSE) {
                     $this->db->trans_rollback();
-                    $data = array(
+                    $rdata = array(
                         'status'     => FALSE,
                         'errors'     => [],
                         'message' => 'Gagal merubah status'
                     );
-                    $this->output->set_content_type('application/json')->set_output(json_encode($data));
+                    $this->output->set_content_type('application/json')->set_output(json_encode($rdata));
                 }
                 $data = [
                     'kdtpdo_penjualan' => $this->input->post('kdtpdo_penjualan'),
@@ -101,24 +101,24 @@ class Delivery_order extends CI_Controller
                 $idtpdo_penjualan = $this->do->add('tbl_transaksi_penjualan_do', $data);
                 if ($this->db->trans_status() === FALSE) {
                     $this->db->trans_rollback();
-                    $data = array(
+                    $rdata = array(
                         'status'     => FALSE,
                         'errors'     => [],
                         'message' => 'Gagal membuat pengiriman'
                     );
-                    $this->output->set_content_type('application/json')->set_output(json_encode($data));
+                    $this->output->set_content_type('application/json')->set_output(json_encode($rdata));
                 }
                 $this->db->trans_commit();
-                $data['status'] = TRUE;
-                $this->output->set_content_type('application/json')->set_output(json_encode($data));
+                $rdata['status'] = TRUE;
+                $this->output->set_content_type('application/json')->set_output(json_encode($rdata));
             }
         } else {
             $data = array(
                 'status'     => FALSE,
                 'errors'     => [],
                 'message' => 'Data penjualan tidak ada'
-
             );
+            $this->output->set_content_type('application/json')->set_output(json_encode($data));
         }
     }
 

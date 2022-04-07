@@ -216,7 +216,7 @@ class Transaksi extends CI_Controller
         <p class="card-text"><small>Ket : ' . $penj->keterangan . '</small></p>
       </div>
       <div class="col-md-4 col-sm-4 col-6">
-        <a href="' . base_url('delivery_order/detail/' . $penj->idtpdo_penjualan) . '" class="float-right m-0 mr-1 btn text-info btn-sm">Detail</a>
+        <a href="' . base_url('delivery_order/detail/' . $penj->idt_penjualan) . '" class="float-right m-0 mr-1 btn text-info btn-sm">Detail</a>
       </div>
     </div>
   </div>

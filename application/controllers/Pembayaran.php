@@ -56,8 +56,8 @@ class Pembayaran extends CI_Controller
         ];
         $idtp_penjualan = $this->penjualan->addPembayaran($data);
         $this->db->where('idt_penjualan', $idt_penjualan)->update('tbl_transaksi_penjualan', ['status' => 'PROSES']);
-        $data['status'] = TRUE;
-        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+        $rdata['status'] = TRUE;
+        $this->output->set_content_type('application/json')->set_output(json_encode($rdata));
       }
     } else {
       $data = array(
@@ -66,6 +66,7 @@ class Pembayaran extends CI_Controller
         'message' => 'Data penjualan tidak ada'
 
       );
+      $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
   }
 
@@ -82,13 +83,14 @@ class Pembayaran extends CI_Controller
       ->get_where('tbl_transaksi_penjualan_detail', ['idt_penjualan' => $penjualan->idt_penjualan])
       ->result();
     $p_bayar = $this->db
-      ->select('*,tbl_transaksi_penjualan_pembayaran.total as total')
+      ->select('*')
       ->join('tbl_transaksi_penjualan', 'tbl_transaksi_penjualan.idt_penjualan = tbl_transaksi_penjualan_pembayaran.idt_penjualan')
       ->join('tbl_metode_bayar', 'tbl_transaksi_penjualan_pembayaran.idmetode_bayar = tbl_metode_bayar.idmetode_bayar')
       ->join('tbl_status_bayar', 'tbl_transaksi_penjualan_pembayaran.idstatus_bayar = tbl_status_bayar.idstatus_bayar')
       ->join('tbl_rekening_bank', 'tbl_transaksi_penjualan_pembayaran.idrekeningbank = tbl_rekening_bank.idrekeningbank')
       ->get_where('tbl_transaksi_penjualan_pembayaran', ['tbl_transaksi_penjualan_pembayaran.idt_penjualan' => $penjualan->idt_penjualan, 'tbl_transaksi_penjualan_pembayaran.publish' => 'T',])
       ->result();
+
     $data['pembayaran'] = $p_bayar;
     $data['penjualan'] = $penjualan;
     $data['detail'] = $p_detail;
