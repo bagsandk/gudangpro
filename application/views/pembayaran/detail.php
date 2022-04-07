@@ -329,6 +329,7 @@ foreach ($pembayaran as $pem) {
               text: 'Data Pengiriman Berhasil Dibuat',
               type: 'success'
             });
+            sleep(2)
             window.location.href = "<?= base_url('delivery_order/detail/' . $penjualan->idt_penjualan); ?>";
           } else {
             $.each(data.errors, function(key, value) {

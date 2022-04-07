@@ -365,6 +365,7 @@ foreach ($pembayaran as $pem) {
               text: 'Data Penjualan Berhasil Ditambah',
               type: 'success'
             });
+            sleep(2)
             window.location.href = "<?= base_url('pembayaran/detail/' . $penjualan->idt_penjualan); ?>";
           } else {
             $.each(data.errors, function(key, value) {
